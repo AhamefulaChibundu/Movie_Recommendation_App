@@ -13,12 +13,19 @@ import favoritesRoute from './routes/favorites_route.js';
 import movieRoute from './routes/importMovie_route.js';
 import watchlistRoute from './routes/watchList_route.js';
 import reviewRoute from './routes/review_route.js';
+import cors from 'cors';
 
 const PORT = 2000;
 
 const app = express();
 dotenv.config();
 app.use(express.json());
+
+app.use(cors({
+    origin: 'http://localhost:2000',
+    credentials: true
+}));
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
