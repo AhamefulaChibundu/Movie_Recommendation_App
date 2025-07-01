@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import Favorites from "./pages/favorites";
 import Watchlist from "./pages/watchlist";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/watchlist" element={<Watchlist />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

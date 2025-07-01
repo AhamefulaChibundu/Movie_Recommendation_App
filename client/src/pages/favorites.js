@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
+import Header from "../components/header";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -25,6 +26,7 @@ const Favorites = () => {
 
   return (
     <div>
+      <Header />
       <h2>My Favorites</h2>
       <ul>
         {favorites.map((movie) => (
