@@ -13,7 +13,7 @@ export const addToWatchlist = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // 👉 If movie doesn't exist locally, fetch from TMDB and save
+    // If movie doesn't exist locally, fetch from TMDB and save
     let movie = await Movie.findOne({ tmdbId });
     if (!movie) {
       const apiKey = process.env.TMDB_API_KEY;
@@ -92,4 +92,17 @@ export const removeFromWatchlist = async (req, res) => {
   }
 };
 
-export default { addToWatchlist, removeFromWatchlist };
+// Get Watchlist
+export const getWatchlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("watchlist");
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    return res.status(200).json({ watchlist: user.watchlist });
+  } catch (err) {
+    console.error("Get watchlist error:", err.message);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export default { addToWatchlist, removeFromWatchlist, getWatchlist };
