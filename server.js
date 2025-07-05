@@ -13,6 +13,9 @@ import favoritesRoute from './routes/favorites_route.js';
 import movieRoute from './routes/importMovie_route.js';
 import watchlistRoute from './routes/watchList_route.js';
 import reviewRoute from './routes/review_route.js';
+import followRoutes from "./routes/followOrfUnfollow.js";
+import userRoutes from "./routes/user_route.js";
+import deleteAccountRoutes from "./routes/delete_account_route.js";
 import cors from 'cors';
 
 const PORT = 2000;
@@ -54,6 +57,10 @@ app.use(favoritesRoute);
 app.use(movieRoute);
 app.use(watchlistRoute);
 app.use(reviewRoute);
+app.use("/users", followRoutes);
+app.use("/users", userRoutes);
+app.use("/users", deleteAccountRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // Setting up connection to MongoDB
 mongoose.connect(process.env.DB_URI, {
