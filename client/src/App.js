@@ -6,6 +6,9 @@ import Dashboard from "./pages/dashboard";
 import Favorites from "./pages/favorites";
 import Watchlist from "./pages/watchlist";
 import Profile from "./pages/profile";
+import MovieDetails from "./pages/movieDetails";
+import UsersList from "./pages/userList";
+import UserProfile from "./pages/userProfile";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/movie/:tmdbId" element={<MovieDetails />} />
+        <Route path="/users" element={<UsersList />} />
+        <Route path="/users/:id" element={<UserProfile />} />
       </Routes>
     </Router>
   );

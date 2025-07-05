@@ -3,6 +3,7 @@ import api from "../api";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/header";
+import MovieCard from "../components/movieCard";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -65,7 +66,7 @@ const Dashboard = () => {
   return (
     <div>
       <Header />
-      <h2>Dashboard</h2>
+      <h2>ChizFLix</h2>
       {user ? (
         <div>
           <p>
@@ -93,63 +94,36 @@ const Dashboard = () => {
               <h3>Search Results:</h3>
               <ul style={{ padding: 0 }}>
                 {searchResults.map((movie) => (
-                  <li key={movie.id} style={{ display: "flex", marginBottom: "20px", listStyle: "none" }}>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                      alt={movie.title}
-                      style={{ width: "100px", marginRight: "10px" }}
-                    />
-                    <div>
-                      <h4>{movie.title} ({movie.release_date?.split("-")[0] || "N/A"})</h4>
-                      <p><strong>Rating:</strong> {movie.vote_average || "N/A"}</p>
-                      <p><strong>Overview:</strong> {movie.overview || "No overview available."}</p>
-
-                      <button onClick={() => handleAddToList(movie.id, "favorites")}>❤️ Favorite</button>
-                      <button onClick={() => handleAddToList(movie.id, "watchlist")}>📺 Watchlist</button>
-                    </div>
-                  </li>
+                  <MovieCard
+                    key={movie.id || movie.tmdbId}
+                    movie={movie}
+                    onAddToList={handleAddToList}
+                  />
                 ))}
               </ul>
             </div>
           )}
 
-          <Link to="/favorites">
-            <button>❤️ View Favorites</button>
-          </Link>
-          <Link to="/watchlist">
-            <button>📺 View Watchlist</button>
-          </Link>
-          <Link to="/profile">
-            <button>View Profile</button>
+          <Link to="/users">
+            <button>👥 View All Users</button>
           </Link>
 
-          {/* ⭐ Recommended Movies */}
+
+          {/* Recommended Movies */}
           {recommended.length > 0 && (
             <div>
               <h3>Recommended Movies</h3>
               <ul style={{ padding: 0 }}>
                 {recommended.map((movie) => (
-                  <li key={movie.id} style={{ display: "flex", marginBottom: "20px", listStyle: "none" }}>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                      alt={movie.title}
-                      style={{ width: "100px", marginRight: "10px" }}
-                    />
-                    <div>
-                      <h4>{movie.title} ({movie.release_date?.split("-")[0] || "N/A"})</h4>
-                      <p><strong>Rating:</strong> {movie.vote_average}</p>
-                      <p><strong>Overview:</strong> {movie.overview}</p>
-                      <button onClick={() => handleAddToList(movie.id, "favorites")}>❤️ Favorite</button>
-                      <button onClick={() => handleAddToList(movie.id, "watchlist")}>📺 Watchlist</button>
-                    </div>
-                  </li>
+                  <MovieCard
+                    key={movie.id || movie.tmdbId}
+                    movie={movie}
+                    onAddToList={handleAddToList}
+                  />
                 ))}
               </ul>
             </div>
           )}
-
-          {/*  Navigation */}
-          
         </div>
       ) : (
         <p>Loading user info...</p>

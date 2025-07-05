@@ -19,10 +19,10 @@ const Header = () => {
   return (
     <header style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
       <nav>
-        <Link to="/dashboard">🏠 Dashboard</Link>{" | "}
-        <Link to="/favorites">❤️ Favorites</Link>{" | "}
-        <Link to="/watchlist">📺 Watchlist</Link>{" | "}
-        <Link to="/profile">👤 Profile</Link>{" | "}
+        <Link to="/dashboard"><button>🏠 Dashboard</button></Link>{" | "}
+        <Link to="/favorites"><button>❤️ Favorites</button></Link>{" | "}
+        <Link to="/watchlist"><button>📺 Watchlist</button></Link>{" | "}
+        <Link to="/profile"><button>👤 Profile</button></Link>{" | "}
         <button onClick={handleLogout} style={{ marginLeft: "10px" }}>
           🔓 Logout
         </button>
