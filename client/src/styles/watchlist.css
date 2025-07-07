@@ -1,0 +1,88 @@
+/* Watchlist Page Container */
+.watchlist-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #0d1117;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Page Title */
+.watchlist-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #58ff5e;
+  margin-bottom: 2rem;
+}
+
+/* Movie List */
+.watchlist-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Movie Card */
+.watchlist-card {
+  background-color: #161b22;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  gap: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Poster */
+.watchlist-card img {
+  width: 100px;
+  border-radius: 5px;
+}
+
+/* Movie Info */
+.watchlist-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.watchlist-title-link {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  color: #2ea043;
+  text-decoration: none;
+}
+
+.watchlist-title-link:hover {
+  text-decoration: underline;
+}
+
+.watchlist-info p {
+  font-size: 0.95rem;
+  color: #c9d1d9;
+  margin-bottom: 0.5rem;
+}
+
+/* Remove Button */
+.remove-watchlist-button {
+  margin-top: auto;
+  padding: 0.5rem 1rem;
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.remove-watchlist-button:hover {
+  background-color: #e74c3c;
+}
+
+/* Loading and Empty Message */
+.watchlist-message {
+  text-align: center;
+  color: #999;
+  margin-top: 2rem;
+}

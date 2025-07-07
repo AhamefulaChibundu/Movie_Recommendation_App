@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import Header from "../components/header";
 import { useNavigate } from "react-router-dom";
+import "../styles/profile.css"; // Import the custom profile styles
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -46,7 +47,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("username", username);
       if (profilePicture) {
-        formData.append("profilePicture", profilePicture); // only append if user selected a file
+        formData.append("profilePicture", profilePicture);
       }
 
       const res = await api.put("/users/profile", formData, {
@@ -65,89 +66,77 @@ const Profile = () => {
     }
   };
 
-  if (!user) return <p>Loading profile...</p>;
+  if (!user) return <p className="loading">Loading profile...</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="profile-container">
       <Header />
-      <h2>My Profile</h2>
+      <h2 className="profile-title">My Profile</h2>
 
       {user.profilePicture && (
         <img
           src={user.profilePicture}
           alt="Profile"
-          style={{ width: "100px", borderRadius: "50%", marginBottom: "10px" }}
+          className="profile-avatar"
         />
       )}
 
-      <p><strong>Username:</strong> {user.username}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
-      <p><strong>Followers:</strong> {user.followers}</p>
-      <p><strong>Following:</strong> {user.following}</p>
-      <p><strong>Favorites:</strong> {user.favorites}</p>
-      <p><strong>Watchlist:</strong> {user.watchlist}</p>
+      <div className="profile-info">
+        <p><strong>Username:</strong> {user.username}</p>
+        <p><strong>Email:</strong> {user.email}</p>
+        <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+        <p><strong>Followers:</strong> {user.followers}</p>
+        <p><strong>Following:</strong> {user.following}</p>
+        <p><strong>Favorites:</strong> {user.favorites}</p>
+        <p><strong>Watchlist:</strong> {user.watchlist}</p>
+      </div>
 
-      <hr style={{ margin: "20px 0" }} />
+      <hr className="profile-divider" />
 
-      <div style={{ marginBottom: "20px" }}>
-        <label><strong>New Username:</strong></label><br />
+      <div className="profile-form-group">
+        <label>New Username:</label>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ padding: "5px", width: "250px" }}
         />
       </div>
 
-      <div style={{ marginBottom: "20px" }}>
-        <label><strong>Upload New Profile Picture:</strong></label><br />
+      <div className="profile-form-group">
+        <label>Upload New Profile Picture:</label>
         <input
           type="file"
           accept="image/*"
           onChange={(e) => setProfilePicture(e.target.files[0])}
         />
         {profilePicture && (
-          <div style={{ marginTop: "10px" }}>
-            <strong>Preview:</strong><br />
+          <div>
+            <strong>Preview:</strong>
             <img
               src={URL.createObjectURL(profilePicture)}
               alt="Preview"
-              style={{ width: "100px", borderRadius: "50%" }}
+              className="preview-img"
             />
           </div>
         )}
       </div>
 
-      <button
-        onClick={handleUpdateProfile}
-        disabled={isUpdating}
-        style={{
-          backgroundColor: "#007BFF",
-          color: "white",
-          padding: "10px 20px",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          marginRight: "10px"
-        }}
-      >
-        {isUpdating ? "Updating..." : "Update Profile"}
-      </button>
+      <div className="profile-buttons">
+        <button
+          onClick={handleUpdateProfile}
+          disabled={isUpdating}
+          className="update-btn"
+        >
+          {isUpdating ? "Updating..." : "Update Profile"}
+        </button>
 
-      <button
-        onClick={handleDeleteAccount}
-        style={{
-          backgroundColor: "red",
-          color: "white",
-          padding: "10px 20px",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer"
-        }}
-      >
-        Delete My Account
-      </button>
+        <button
+          onClick={handleDeleteAccount}
+          className="delete-btn"
+        >
+          Delete My Account
+        </button>
+      </div>
     </div>
   );
 };

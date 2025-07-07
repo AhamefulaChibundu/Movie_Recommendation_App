@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
+import "../styles/userslist.css"; // import the new styles
 
 const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -39,22 +40,21 @@ const UsersList = () => {
   };
 
   return (
-    <div>
+    <div className="userslist-container">
       <Header />
-      <h2>All Users</h2>
+      <h2 className="userslist-title">All Users</h2>
       {users.map(user => {
         const isFollowing = following.includes(user._id);
         return (
-          <div key={user._id} style={{ border: "1px solid #ccc", marginBottom: "10px", padding: "10px" }}>
-            {/* Username links to profile */}
-            <Link to={`/users/${user._id}`} style={{ textDecoration: "none", color: "blue" }}>
+          <div key={user._id} className="user-card">
+            <Link to={`/users/${user._id}`} className="user-link">
               <h4>{user.username}</h4>
             </Link>
 
             {isFollowing ? (
-              <button onClick={() => handleUnfollow(user._id)}>Unfollow</button>
+              <button className="unfollow-btn" onClick={() => handleUnfollow(user._id)}>Unfollow</button>
             ) : (
-              <button onClick={() => handleFollow(user._id)}>Follow</button>
+              <button className="follow-btn" onClick={() => handleFollow(user._id)}>Follow</button>
             )}
           </div>
         );

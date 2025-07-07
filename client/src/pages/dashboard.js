@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/header";
 import MovieCard from "../components/movieCard";
+import "../styles/dashboard.css";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [recommended, setRecommended] = useState([]);
+  const [backgroundImage, setBackgroundImage] = useState(""); // New
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -26,7 +27,15 @@ const Dashboard = () => {
         const res = await axios.get(
           `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&page=1`
         );
-        setRecommended(res.data.results);
+        const movies = res.data.results;
+        setRecommended(movies);
+
+        const withBackdrop = movies.find((movie) => movie.backdrop_path);
+        if (withBackdrop) {
+          setBackgroundImage(
+            `https://image.tmdb.org/t/p/original${withBackdrop.backdrop_path}`
+          );
+        }
       } catch (error) {
         console.error("Failed to fetch recommended movies:", error.message);
       }
@@ -55,7 +64,6 @@ const Dashboard = () => {
       const res = await api.post(`/${listType}`, { tmdbId });
       alert(res.data.message);
 
-      // Refresh profile data to reflect updated favorites/watchlist
       const profileRes = await api.get("/profile");
       setUser(profileRes.data.details);
     } catch (err) {
@@ -64,70 +72,63 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <Header />
-      <h2>ChizFLix</h2>
-      {user ? (
-        <div>
-          <p>
-            Welcome, <strong>{user.username}</strong> 👋
-          </p>
-          <p>Followers: {user.followers}</p>
-          <p>Following: {user.following}</p>
-          <p>Favorites: {user.favorites}</p>
-          <p>Watchlist: {user.watchlist}</p>
+    <div
+      className="dashboard"
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
+      }}
+    >
+      <div className="overlay"></div>
+      <Header user={user} />
+      <main className="dashboard-main">
 
-          {/* Search Movies */}
-          <form onSubmit={searchMovies}>
-            <input
-              type="text"
-              placeholder="Search movies..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button type="submit">Search</button>
-          </form>
+        {user ? (
+          <section className="user-info">
 
-          {/* Search Results */}
-          {searchResults.length > 0 && (
-            <div>
-              <h3>Search Results:</h3>
-              <ul style={{ padding: 0 }}>
-                {searchResults.map((movie) => (
-                  <MovieCard
-                    key={movie.id || movie.tmdbId}
-                    movie={movie}
-                    onAddToList={handleAddToList}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
+            <form className="search-form" onSubmit={searchMovies}>
+              <input
+                type="text"
+                placeholder="Search movies..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button type="submit">Search</button>
+            </form>
 
-          <Link to="/users">
-            <button>👥 View All Users</button>
-          </Link>
+            {searchResults.length > 0 && (
+              <section className="search-results">
+                <h3>Search Results:</h3>
+                <ul className="movie-list">
+                  {searchResults.map((movie) => (
+                    <MovieCard
+                      key={movie.id || movie.tmdbId}
+                      movie={movie}
+                      onAddToList={handleAddToList}
+                    />
+                  ))}
+                </ul>
+              </section>
+            )}
 
-
-          {/* Recommended Movies */}
-          {recommended.length > 0 && (
-            <div>
-              <h3>Recommended Movies</h3>
-              <ul style={{ padding: 0 }}>
-                {recommended.map((movie) => (
-                  <MovieCard
-                    key={movie.id || movie.tmdbId}
-                    movie={movie}
-                    onAddToList={handleAddToList}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        <p>Loading user info...</p>
-      )}
+            {recommended.length > 0 && (
+              <section className="recommended-section">
+                <h3>Recommended Movies</h3>
+                <ul className="movie-list">
+                  {recommended.map((movie) => (
+                    <MovieCard
+                      key={movie.id || movie.tmdbId}
+                      movie={movie}
+                      onAddToList={handleAddToList}
+                    />
+                  ))}
+                </ul>
+              </section>
+            )}
+          </section>
+        ) : (
+          <p className="loading">Loading user info...</p>
+        )}
+      </main>
     </div>
   );
 };

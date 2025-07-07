@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; 
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 import Header from "../components/header";
+import "../styles/userprofile.css"; // new CSS file
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -20,33 +21,25 @@ const UserProfile = () => {
     fetchUserProfile();
   }, [id]);
 
-  if (!user) return <p>Loading user profile...</p>;
+  if (!user) return <p className="loading">Loading user profile...</p>;
 
   return (
-    <div>
+    <div className="user-profile-container">
       <Header />
-      <h2>{user.username}'s Profile</h2>
+      <div className="user-profile-box">
+        <h2 className="username-title">{user.username}'s Profile</h2>
+        <ul className="user-stats-list">
+          <li><strong>Followers:</strong> {user.followers}</li>
+          <li><strong>Following:</strong> {user.following}</li>
+          <li><strong>Favorites:</strong> {user.favorites}</li>
+          <li><strong>Watchlist:</strong> {user.watchlist}</li>
+          <li><strong>Joined:</strong> {new Date(user.joined).toLocaleDateString()}</li>
+        </ul>
 
-      <p><strong>Followers:</strong> {user.followers}</p>
-      <p><strong>Following:</strong> {user.following}</p>
-      <p><strong>Favorites:</strong> {user.favorites}</p>
-      <p><strong>Watchlist:</strong> {user.watchlist}</p>
-      <p><strong>Joined:</strong> {new Date(user.joined).toLocaleDateString()}</p>
-
-      <button
-        onClick={() => navigate(-1)}
-        style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          border: "none",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          borderRadius: "5px",
-          cursor: "pointer"
-        }}
-      >
-        ← Back to Users List
-      </button>
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          ← Back to Users List
+        </button>
+      </div>
     </div>
   );
 };

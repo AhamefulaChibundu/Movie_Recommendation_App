@@ -1,0 +1,86 @@
+/* Header Wrapper */
+.app-header {
+  background-color: rgba(16, 41, 31, 0.9); /* Dark semi-transparent */
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #116841;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Inner Container */
+.app-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* App Title on the Left */
+.app-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #58ff5e;
+  margin: 0;
+}
+
+/* Navigation Container */
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Navigation Buttons */
+.app-nav button {
+  background-color: #238636;
+  color: white;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.app-nav button:hover {
+  background-color: #2ea043;
+}
+
+/* Responsive: Stack on small screens */
+@media (max-width: 600px) {
+  .app-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-nav {
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+
+  .app-nav button {
+    width: 100%;
+    text-align: left;
+  }
+
+  
+}
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.welcome-message {
+  font-size: 0.95rem;
+  color: #c9d1d9;
+}

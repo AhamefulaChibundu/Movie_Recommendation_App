@@ -1,0 +1,54 @@
+.user-profile-container {
+  min-height: 100vh;
+  background-color: #0d1117;
+  color: #c9d1d9;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.user-profile-box {
+  background-color: #161b22;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.username-title {
+  color: #58ff5e;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.user-stats-list {
+  list-style: none;
+  padding: 0;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.back-btn {
+  margin-top: 2rem;
+  padding: 10px 20px;
+  background-color: #238636;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.back-btn:hover {
+  background-color: #2ea043;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  color: #8b949e;
+}
