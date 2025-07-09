@@ -3,6 +3,11 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cors from 'cors';
+
+// Import routes
 import signUp from './routes/signup_route.js';
 import logIn from './routes/login_route.js';
 import profile from './routes/profile.js';
@@ -13,40 +18,39 @@ import favoritesRoute from './routes/favorites_route.js';
 import movieRoute from './routes/importMovie_route.js';
 import watchlistRoute from './routes/watchList_route.js';
 import reviewRoute from './routes/review_route.js';
-import followRoutes from "./routes/followOrfUnfollow.js";
-import userRoutes from "./routes/user_route.js";
-import deleteAccountRoutes from "./routes/delete_account_route.js";
-import cors from 'cors';
+import followRoutes from './routes/followOrfUnfollow.js';
+import userRoutes from './routes/user_route.js';
+import deleteAccountRoutes from './routes/delete_account_route.js';
 
-const PORT = 2000;
-
-const app = express();
 dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 2000;
+
+// Middleware
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:2000',
-    credentials: true
+  origin: 'http://localhost:3000', 
+  credentials: true,
 }));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.DB_URI,
-        autoRemove: 'native',
-        collectionName: 'sessions',
-        ttl: 60 *60
-    }),
-    cookie: {
-        maxAge: 1000 * 60 * 60 //1hr
-    }
-}))
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.DB_URI,
+    autoRemove: 'native',
+    collectionName: 'sessions',
+    ttl: 60 * 60,
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60, // 1 hour
+  },
+}));
 
-app.get('/', (req, res) => {
-    res.send("welcome!!!")
-})
+// Routes
+app.get('/', (req, res) => res.send('Welcome!!!'));
 app.use(signUp);
 app.use(logIn);
 app.use(profile);
@@ -57,21 +61,34 @@ app.use(favoritesRoute);
 app.use(movieRoute);
 app.use(watchlistRoute);
 app.use(reviewRoute);
-app.use("/users", followRoutes);
-app.use("/users", userRoutes);
-app.use("/users", deleteAccountRoutes);
+app.use('/users', followRoutes);
+app.use('/users', userRoutes);
+app.use('/users', deleteAccountRoutes);
 app.use('/uploads', express.static('uploads'));
 
-// Setting up connection to MongoDB
+// Serve frontend build (ONLY in production)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, 'client', 'build');
+  app.use(express.static(buildPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+}
+
+// MongoDB connection
 mongoose.connect(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 }).then(() => {
-    console.log('MongoDB connected Successfully');
-}).catch((error) => {
-    console.error('MongoDB connection Failed!!!');
+  console.log('MongoDB connected successfully');
+}).catch((err) => {
+  console.error('MongoDB connection failed:', err);
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is listening on Port ${PORT}`)
-})
+  console.log(`Server is listening on port ${PORT}`);
+});
