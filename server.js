@@ -69,13 +69,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, 'client', 'build');
+  const buildPath = path.resolve(__dirname, 'client', 'build'); // ensure absolute path
   app.use(express.static(buildPath));
 
-  app.get('/:path(*)', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(buildPath, 'index.html')); // also use resolve here
   });
 }
+
 
 // MongoDB connection
 mongoose.connect(process.env.DB_URI, {
