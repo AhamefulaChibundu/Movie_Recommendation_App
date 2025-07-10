@@ -64,7 +64,7 @@ app.use('/users', userRoutes);
 app.use('/users', deleteAccountRoutes);
 app.use('/uploads', express.static('uploads'));
 
-// Serve frontend build (ONLY in production)
+// Serve frontend build
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -72,7 +72,7 @@ if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, 'client', 'build');
   app.use(express.static(buildPath));
 
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
