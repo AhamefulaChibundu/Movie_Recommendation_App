@@ -18,15 +18,15 @@ import favoritesRoute from './routes/favorites_route.js';
 import movieRoute from './routes/importMovie_route.js';
 import watchlistRoute from './routes/watchList_route.js';
 import reviewRoute from './routes/review_route.js';
-import followRoutes from "./routes/followOrfUnfollow.js";
-import userRoutes from "./routes/user_route.js";
-import deleteAccountRoutes from "./routes/delete_account_route.js";
+import followRoutes from './routes/followOrfUnfollow.js';
+import userRoutes from './routes/user_route.js';
+import deleteAccountRoutes from './routes/delete_account_route.js';
 
-// Setup dirname for ES modules (so path.join works)
+// Setup __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// App setup
+// App config
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 2000;
@@ -53,11 +53,7 @@ app.use(session({
   },
 }));
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('Welcome!');
-});
-
+// Backend API routes
 app.use(signUp);
 app.use(logIn);
 app.use(profile);
@@ -72,10 +68,20 @@ app.use(followRoutes);
 app.use(userRoutes);
 app.use(deleteAccountRoutes);
 
-// Correct static path for uploads
+// Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// DB Connection
+// Serve React frontend 
+if (process.env.NODE_ENV === 'production') {
+  const clientBuildPath = path.join(__dirname, 'client', 'build');
+  app.use(express.static(clientBuildPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
+
+// MongoDB connection
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -85,7 +91,7 @@ mongoose.connect(process.env.DB_URI, {
   console.error('MongoDB connection failed:', error.message);
 });
 
-// Start Server
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
