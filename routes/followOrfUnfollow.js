@@ -4,7 +4,7 @@ import { followUser, unfollowUser } from "../controllers/followControl.js";
 
 const router = express.Router();
 
-router.put("/follow/:id", authenticated, followUser);
-router.put("/unfollow/:id", authenticated, unfollowUser);
+router.put("/users/follow/:id", authenticated, followUser);
+router.put("/users/unfollow/:id", authenticated, unfollowUser);
 
 export default router;

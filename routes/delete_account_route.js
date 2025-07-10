@@ -4,6 +4,6 @@ import authenticated from '../authentication/authenticated.js';
 
 const router = express.Router();
 
-router.delete('/delete', authenticated, deleteAccount);
+router.delete("/users/delete", authenticated, deleteAccount);
 
 export default router;
