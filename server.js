@@ -50,6 +50,8 @@ app.use(session({
   }),
   cookie: {
     maxAge: 1000 * 60 * 60, // 1 hour
+    sameSite: "none",       // allow cross-site cookie
+    secure: true 
   },
 }));
 
