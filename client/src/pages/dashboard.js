@@ -14,8 +14,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return console.warn("No token found");
+
       try {
-        const res = await api.get("/profile");
+        const res = await api.get("/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUser(res.data.details);
       } catch (err) {
         console.error("Failed to fetch profile:", err);

@@ -18,6 +18,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await api.post("/login", form);
+      // Save the token in localStorage
+      const token = res.data.details.token;
+      localStorage.setItem("token", token);
       alert(res.data.message || "Login successful!");
       navigate("/dashboard");
     } catch (err) {
