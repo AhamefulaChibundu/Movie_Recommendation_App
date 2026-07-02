@@ -6,8 +6,7 @@ A full-stack MERN application that allows users to sign up, log in, view and rev
 
 ## Live Demo
 
-- **Frontend** (Vercel): [https://movie-recommendation-app-silk.vercel.app](https://movie-recommendation-app-silk.vercel.app)
-- **Backend** (Render): [https://movie-recommendation-vfd8.onrender.com](https://movie-recommendation-vfd8.onrender.com)
+- [https://movie-recommendation-app-silk.vercel.app](https://movie-recommendation-app-silk.vercel.app)
 
 ---
 
